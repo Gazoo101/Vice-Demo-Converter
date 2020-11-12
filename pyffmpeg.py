@@ -8,7 +8,6 @@ from pathlib import Path
 
 class PyFfmpeg():
 
-
    def __init__(self, path_to_ffmpeg):
       self.path_to_ffmpeg = path_to_ffmpeg
 
@@ -30,6 +29,3 @@ class PyFfmpeg():
          execution_commands[3] = str(path_to_video_mp4)
 
          subprocess.run(execution_commands)
-
-
-      # ffmpeg -i bbbb.avi other.mp4
