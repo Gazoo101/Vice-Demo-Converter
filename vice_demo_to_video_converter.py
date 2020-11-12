@@ -58,6 +58,7 @@ class ViceDemoToVideoConverter():
       #self.vice_command_line_arguments += ["+VICIIdsize"]
       #self.vice_command_line_arguments += ["+VICIIdscan"]
 
+
    def _update_vice_window_properties(self, vice_window_rect):
 
       self.window_vice_rect = vice_window_rect
@@ -84,13 +85,13 @@ class ViceDemoToVideoConverter():
             continue
 
          print(f"Now processing: {path_to_rom_folder}")
-         path_to_recorded_video = self._convert_recorded_demo_to_video(path_to_rom_recording_start, self.vice_command_line_arguments)
+         conversion_success, path_to_recorded_video = self._convert_recorded_demo_to_video(path_to_rom_recording_start, self.vice_command_line_arguments)
 
-         paths_to_recorded_videos.append(path_to_recorded_video)
-
-         print("done one")
-
-      print("done all")
+         if conversion_success:
+            paths_to_recorded_videos.append(path_to_recorded_video)
+            print(f"Conversion Success: {path_to_rom_folder}")
+         else:
+            print(f"Conversion Failure: {path_to_rom_folder}")
 
       return paths_to_recorded_videos
 
@@ -125,9 +126,6 @@ class ViceDemoToVideoConverter():
       else:
          #print("NO playback detected")
          return False
-
-
-      
 
 
    def _wait_until_vice_demo_playback_completes(self):
@@ -268,7 +266,10 @@ class ViceDemoToVideoConverter():
 
       proc.kill()
 
-      return video_filename
+      if video_filename.exists() == False:
+         return False, "N/a"
+
+      return True, video_filename
 
 
 
